@@ -1,3 +1,0 @@
-#!/bin/bash
-rm -r _build
-rm -f *.cmi *.cmo ftest.native
