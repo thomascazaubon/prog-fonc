@@ -3,3 +3,4 @@
 ftest
 *.byte
 _build/
+*.native
