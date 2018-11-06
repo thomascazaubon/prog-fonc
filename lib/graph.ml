@@ -32,7 +32,7 @@ let add_arc gr id1 id2 lbl =
   (* Update out-arcs.
    * remove_assoc does not fail if id2 is not bound.  *)
   let outb = (id2, lbl) :: List.remove_assoc id2 outa in
-  
+
   (* Replace out-arcs in the graph. *)
   let gr2 = List.remove_assoc id1 gr in
   (id1, outb) :: gr2
@@ -41,6 +41,21 @@ let v_iter gr f = List.iter (fun (id, out) -> f id out) gr
 
 let v_fold gr f acu = List.fold_left (fun acu (id, out) -> f acu id out) acu gr
 
-let map gr f = failwith "Graph.map: to be implemented by you."
+(* applique f sur une liste d'arcs *)
+let umap f arcs =
+  let rec iter f acu = function
+    |[] -> List.rev acu
+    |(a,b)::tail -> iter f ((a,f b)::acu) tail
+  in
+  iter f [] arcs
 
-
+let map gr f =
+  let rec iter f acu = function
+    |[] -> List.rev acu
+    |node::tail -> match node with
+      (* Le noeud est un puits *)
+      |(a,[]) -> iter f ((a,[])::acu) tail
+      (* Le noeud contient des arcs sortants *)
+      |(a,l) -> iter f ((a, umap f l)::acu) tail
+  in
+  iter f [] gr
