@@ -4,3 +4,6 @@ ftest
 *.byte
 _build/
 *.native
+testgraph
+testimg
+testexport

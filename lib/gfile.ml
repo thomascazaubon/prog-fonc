@@ -71,4 +71,18 @@ let from_file path =
   
   close_in infile ;
   final_graph
-  
+
+let export path graph = 
+	let out = open_out path in
+		 	fprintf out "digraph finite_state_machine {\n";
+			fprintf out "rankdir=LR;\n";
+			fprintf out "size=\"8,5\"\n";
+			fprintf out "node [shape = circle];\n";
+			v_iter graph (fun id out2 -> List.iter (fun (id2, lbl) -> fprintf out "LR_%s -> LR_%s [ label = \"%s\" ];\n"  id id2 lbl) out2) ;
+			fprintf out "}\n";
+   close_out out ;
+  ()
+
+
+
+
