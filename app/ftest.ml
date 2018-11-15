@@ -1,4 +1,5 @@
 open Graph
+open Algo
 
 let () =
 
@@ -10,7 +11,7 @@ let () =
 
   let infile = Sys.argv.(1)
   and outfile = Sys.argv.(4)
-  
+
   (* These command-line arguments are not used for the moment. *)
   and _source = Sys.argv.(2)
   and _sink = Sys.argv.(3)
@@ -19,10 +20,9 @@ let () =
   (* Open file *)
   let graph = Gfile.from_file infile in
   (* export .dot *)
-  let () = Gfile.export "testexport" graph in 
+  let graph = Algo.make_flow graph in 
+  let () = Gfile.export "testexport" graph in
   (* Rewrite the graph that has been read. *)
   let () = Gfile.write_file outfile graph in
 
   ()
-
-

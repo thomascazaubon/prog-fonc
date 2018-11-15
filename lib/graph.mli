@@ -51,6 +51,5 @@ val v_iter: 'a graph -> (id -> 'a out_arcs -> unit) -> unit
 val v_fold: 'a graph -> ('b -> id -> 'a out_arcs -> 'b) -> 'b -> 'b
 
 (* maps all arcs of the graph
- * Nodes keep the same identifiers.
- A FAIRE *)
+ * Nodes keep the same identifiers. *)
 val map: 'a graph -> ('a -> 'b) -> 'b graph
