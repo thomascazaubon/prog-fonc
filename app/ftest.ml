@@ -20,7 +20,8 @@ let () =
   (* Open file *)
   let graph = Gfile.from_file infile in
   (* export .dot *)
-  let graph = Algo.make_flow graph in 
+  let graph = Algo.make_flow graph in
+  let graph = Algo.convert_flow graph in 
   let () = Gfile.export "testexport" graph in
   (* Rewrite the graph that has been read. *)
   let () = Gfile.write_file outfile graph in
