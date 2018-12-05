@@ -11,6 +11,9 @@ val make_flow: string graph -> (int * int) graph
 
 val convert_flow: (int * int) graph -> string graph
 
+
 val update_path: (int * int) graph -> (int * int) path -> (int * int) graph
 
 val increase_path: (int * int) path -> int -> (int * int) path
+
+val trouver_chemin: (int * int) graph -> Graph.id -> Graph.id -> int
