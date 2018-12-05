@@ -21,6 +21,8 @@ let () =
   let graph = Gfile.from_file infile in
   (* export .dot *)
   let graph = Algo.make_flow graph in
+  let acu = Algo.trouver_chemin graph "0" "5" in
+  let () =	Printf.printf "Val : %i\n" acu in
   let graph = Algo.convert_flow graph in 
   let () = Gfile.export "testexport" graph in
   (* Rewrite the graph that has been read. *)

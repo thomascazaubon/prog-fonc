@@ -8,3 +8,5 @@ open Graph
 val make_flow: string graph -> (int * int) graph
 
 val convert_flow: (int * int) graph -> string graph
+
+val trouver_chemin: (int * int) graph -> Graph.id -> Graph.id -> int
