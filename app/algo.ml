@@ -62,9 +62,7 @@ let update_path gr path =
   in
   match path with
     |(_,[]) -> gr
-    |(s,(ids,_)::_) -> let arc = Graph.find_arc gr s ids in match arc with
-                                      |Some (f,c) -> iter (Graph.add_arc gr s ids (f,c)) path
-                                      |_ -> assert false
+    |(s,(ids,(f,c))::_) -> iter (Graph.add_arc gr s ids (f,c)) path
 
 let increase_path path value =
   let rec iter value acu path = match path with
