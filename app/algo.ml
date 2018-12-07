@@ -48,9 +48,9 @@ let trouver_chemin graphe src dest = match graphe with
 *)
 
 let find_max path =
-  let rec iter max = function
-    |[] -> max
-    |(_,(f,c))::tail -> if ((c - f) < max) then iter (c - f) tail else iter max tail
+  let rec iter max_flow = function
+    |(_,[]) -> max_flow
+    |(o,(s,(f,c))::tail) -> if ((c - f) < max_flow) then iter (c - f) (s,tail) else iter max_flow (o,tail)
   in
     iter max_int path
 

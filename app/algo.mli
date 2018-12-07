@@ -11,6 +11,7 @@ val make_flow: string graph -> (int * int) graph
 
 val convert_flow: (int * int) graph -> string graph
 
+val find_max: (int * int) path -> int
 
 val update_path: (int * int) graph -> (int * int) path -> (int * int) graph
 
