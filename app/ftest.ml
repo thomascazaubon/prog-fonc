@@ -22,7 +22,8 @@ let () =
   (* export .dot *)
   let graph = Algo.make_flow graph in
   let acu = Algo.trouver_chemin graph "0" "5" in
-  let () =	Printf.printf "Val : %i\n" acu in
+  let () = Algo.affichpath acu in
+  let () = Algo.find_max acu in
   let graph = Algo.convert_flow graph in
   let () = Gfile.export "testexport" graph in
   (* Rewrite the graph that has been read. *)
