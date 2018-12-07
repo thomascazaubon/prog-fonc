@@ -70,3 +70,14 @@ let increase_path path value =
     |(s,(id,(f,c))::tail) -> iter value ((id,(f + value, c))::acu) (s,tail)
   in
   iter value [] path
+
+let ford_fulkerson graph src dest =
+  let rec iter input src dest output =
+    try
+      trouver_chemin input src dest 
+    with
+      |Chemin_Not_Found -> output
+
+
+  in
+  iter graph src dest graph
