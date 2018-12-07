@@ -15,24 +15,26 @@ let convert_flow gr =
 exception Chemin_Not_Found
 let trouver_chemin graphe src dest =
 	let acu = (src, []) in
-	let rec find_g graphe src dest acu =
+	let rec find_g graphe src dest acu notpass =
 		if src = dest then 
 			match acu with 
 				|(src, lst) -> (src, List.rev lst)
 		else
 			let arc_infos = Graph.out_arcs graphe src in
 				let rec chemin arc_infos = match arc_infos with
-					|[] -> raise Chemin_Not_Found
-					|(i, (a,b)) :: rest ->
-						if (a<b) then
+					|[] -> begin 
 							match acu with
-								|(src, lst) -> find_g graphe i dest (src, (i, (a,b))::lst) 
-							(*let () = Printf.printf "Val passage : %s\n%!" i in
-							find_g graphe i dest (let )*)
+								|(deb, []) -> raise Chemin_Not_Found
+								|(deb, (s,_)::lst) -> find_g graphe s dest (deb, lst) (src::notpass)
+						   end
+					|(i, (a,b)) :: rest ->
+						if (a<b && not(List.mem i notpass)) then
+							match acu with
+								|(first, lst) -> find_g graphe i dest (first, (i, (a,b))::lst) notpass
 						else
 							 chemin rest
 				in chemin arc_infos
-	in find_g graphe src dest acu
+	in find_g graphe src dest acu []
 
 let affichpath path = match path with
 	|(i, lst) -> let () = Printf.printf "(%s, " i in
