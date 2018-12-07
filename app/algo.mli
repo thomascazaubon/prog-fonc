@@ -17,6 +17,9 @@ val update_path: (int * int) graph -> (int * int) path -> (int * int) graph
 
 val increase_path: (int * int) path -> int -> (int * int) path
 
-val trouver_chemin: (int * int) graph -> Graph.id -> Graph.id -> int
 
 val ford_fulkerson: (int * int) graph -> Graph.id -> Graph.id -> (int * int) graph
+
+val trouver_chemin: (int * int) graph -> Graph.id -> Graph.id -> (int * int) path
+
+val affichpath: (int * int) path -> unit

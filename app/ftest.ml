@@ -13,16 +13,17 @@ let () =
   and outfile = Sys.argv.(4)
 
   (* These command-line arguments are not used for the moment. *)
-  and _source = Sys.argv.(2)
-  and _sink = Sys.argv.(3)
+  and source = Sys.argv.(2)
+  and sink = Sys.argv.(3)
   in
 
   (* Open file *)
   let graph = Gfile.from_file infile in
   (* export .dot *)
   let graph = Algo.make_flow graph in
-  let acu = Algo.trouver_chemin graph "0" "5" in
-  let () =	Printf.printf "Val : %i\n" acu in
+  let acu = Algo.trouver_chemin graph source sink in
+  let () = Algo.affichpath acu in
+  let () = Printf.printf "%i\n%!" (Algo.find_max acu) in
   let graph = Algo.convert_flow graph in
   let () = Gfile.export "testexport" graph in
   (* Rewrite the graph that has been read. *)
