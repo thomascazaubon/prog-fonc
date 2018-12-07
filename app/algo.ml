@@ -12,36 +12,49 @@ let convert_flow gr =
 
 (* 2 -> 1 -> 3 -> 5 ("2", [("1", (4,4)); ("3", (14,14)); ("5",(20,20))]) *)
 
+let rec existe idx = function
+  |[] -> false
+  |(x,_)::tail -> if (x = idx) then true else existe idx tail
+
 exception Chemin_Not_Found
 let trouver_chemin graphe src dest =
 	let acu = (src, []) in
 	let rec find_g graphe src dest acu notpass =
-		if src = dest then 
-			match acu with 
+		if src = dest then
+			match acu with
 				|(src, lst) -> (src, List.rev lst)
 		else
 			let arc_infos = Graph.out_arcs graphe src in
 				let rec chemin arc_infos = match arc_infos with
-					|[] -> begin 
+					|[] -> begin
 							match acu with
 								|(deb, []) -> raise Chemin_Not_Found
-								|(deb, (s,_)::lst) -> find_g graphe s dest (deb, lst) (src::notpass)
+                |(deb, (s,_)::[]) -> find_g graphe deb dest (deb, []) (src::notpass)
+								|(deb, (s,_)::(s2,l)::lst) -> let () = Printf.printf "Passage supp : %s source : %s \n%!" s2 src in  find_g graphe s2 dest (deb, (s2,l)::lst) (src::notpass)
 						   end
 					|(i, (a,b)) :: rest ->
 						if (a<b && not(List.mem i notpass)) then
-							match acu with
-								|(first, lst) -> find_g graphe i dest (first, (i, (a,b))::lst) notpass
+
+                match acu with
+  								|(first, lst) ->
+                    if (not(existe i lst)) then
+                       let () = Printf.printf "Passage a : %s\n%!" i in find_g graphe i dest (first, (i, (a,b))::lst) notpass
+                    else
+                      chemin rest
+
 						else
 							 chemin rest
 				in chemin arc_infos
 	in find_g graphe src dest acu []
 
+
+
 let affichpath path = match path with
 	|(i, lst) -> let () = Printf.printf "(%s, " i in
-		let rec affich path = match path with 
+		let rec affich path = match path with
 		|(i, lst) -> match lst with
 			|(a, (b,c)) :: rest -> let () =	Printf.printf "(%s, (%i,%i))" a b c in affich (i, rest)
-			|[] -> Printf.printf ")\n" 
+			|[] -> Printf.printf ")\n"
 		in affich path
 (*
 let trouver_chemin graphe src dest = match graphe with
@@ -88,12 +101,16 @@ let increase_path path value =
   iter value [] path
 
 let ford_fulkerson graph src dest =
-  let rec iter input src dest output =
+  let rec iter output src dest =
     try
-      trouver_chemin input src dest 
+      begin
+        let path = trouver_chemin output src dest in
+        let max_flow = find_max path in
+        let increased_path = increase_path path max_flow in
+        let output = update_path output increased_path in
+        iter output src dest
+      end
     with
       |Chemin_Not_Found -> output
-
-
   in
-  iter graph src dest graph
+  iter graph src dest

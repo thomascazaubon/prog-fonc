@@ -8,8 +8,7 @@ clear:
 		rm -f *.cmi *.cmo *.native *.byte testexport testimg testgraph
 
 ftest:
-	./ftest.native graph/graph2.txt 0 8 testgraph
+	./ftest.native graph/graph1 0 3 testgraph
 
 img:
 	dot -Tpng testexport > testimg
-
