@@ -62,9 +62,9 @@ let trouver_chemin graphe src dest = match graphe with
 *)
 
 let find_max path =
-  let rec iter max = function
-    |[] -> max
-    |(_,(f,c))::tail -> if ((c - f) < max) then iter (c - f) tail else iter max tail
+  let rec iter max_flow = function
+    |(_,[]) -> max_flow
+    |(o,(s,(f,c))::tail) -> if ((c - f) < max_flow) then iter (c - f) (s,tail) else iter max_flow (o,tail)
   in
     iter max_int path
 
@@ -76,9 +76,7 @@ let update_path gr path =
   in
   match path with
     |(_,[]) -> gr
-    |(s,(ids,_)::_) -> let arc = Graph.find_arc gr s ids in match arc with
-                                      |Some (f,c) -> iter (Graph.add_arc gr s ids (f,c)) path
-                                      |_ -> assert false
+    |(s,(ids,(f,c))::_) -> iter (Graph.add_arc gr s ids (f,c)) path
 
 let increase_path path value =
   let rec iter value acu path = match path with
