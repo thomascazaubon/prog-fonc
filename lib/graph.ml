@@ -41,7 +41,7 @@ let v_iter gr f = List.iter (fun (id, out) -> f id out) gr
 
 let v_fold gr f acu = List.fold_left (fun acu (id, out) -> f acu id out) acu gr
 
-(* applique f sur une liste d'arcs *)
+(* Applies f on a list of arcs, used by map *)
 let umap f arcs =
   let rec iter f acu = function
     |[] -> List.rev acu
@@ -49,13 +49,14 @@ let umap f arcs =
   in
   iter f [] arcs
 
+
 let map gr f =
   let rec iter f acu = function
     |[] -> List.rev acu
     |node::tail -> match node with
-      (* Le noeud est un puits *)
+      (* The node is a well *)
       |(a,[]) -> iter f ((a,[])::acu) tail
-      (* Le noeud contient des arcs sortants *)
+      (* The node contains out arcs *)
       |(a,l) -> iter f ((a, umap f l)::acu) tail
   in
   iter f [] gr
