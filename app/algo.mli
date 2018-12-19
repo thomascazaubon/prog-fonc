@@ -21,7 +21,6 @@ val convert_flow: (int * int) graph -> string graph
 (* Turns a flow graph into a residual graph *)
 val make_residual: (int * int) graph -> (int * int) graph
 
-
 (* Finds an increasable path in the given graph *)
 val find_path: (int * int) graph -> Graph.id -> Graph.id -> (int * int) path
 

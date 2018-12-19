@@ -12,7 +12,7 @@ let adaptative_add gr ids idd =
     let arc_couple = (original_arc, residual_arc) in
     match arc_couple with
       |(Some(fs,cs),None) -> Graph.add_arc gr idd ids ((cs-fs),cs)
-      (* Dangerous condition that needs to be improved !!! *)
+      (* HERE IS A DANGEROUS CONDITION THAT IS NOT SUFFICIENT AND THUS NEEDS TO BE IMPROVED *)
       |(Some(fs,cs),Some(fd,cd)) when ((cs != cd) && ((fs + fd != cs) && (fs + fd != cd))) -> let gr = Graph.add_arc gr ids idd (cd,(cs+cd)) in
                                                                                               Graph.add_arc gr idd ids (cs,(cs+cd))
       |(Some(fs,cs),Some(fd,cd)) -> gr
@@ -46,16 +46,24 @@ let adaptative_erase original gr ids idd =
                               |(_,_) -> raise (Invalid_argument "1")
                               end
       |(Some(fo,co), Some(fb,cb)) -> begin
-                                     let () = Printf.printf "swag\n%!" in
+                                    (* let () = Printf.printf "swag\n%!" in*)
                                      match updated_couple with
-                                     (* The absolute value is used to counter the second passage ...*)
-                                     |(Some(fu,cu),Some(fr,cr)) -> let original = Graph.add_arc original ids idd (fb,co) in
-                                                                   Graph.add_arc original idd ids (abs (fu - cb),co)
+                                     (* The corrected_val variable is because the algorithm may treat twice the same problem, so 1 arc would be the opposite of its opponent without this condition *)
+                                     |(Some(fu,cu),Some(fr,cr)) -> let corrected_val = if ((fu -cb)<0) then 0 else fu-cb in let original = Graph.add_arc original ids idd (corrected_val,co) in
+                                                                   let corrected_val = if ((fr -co)<0) then 0 else fr-co in
+                                                                   Graph.add_arc original idd ids (corrected_val,cb)
                                      |(_,_) -> raise (Invalid_argument "2")
                                      end
+      |(None, Some(fb,cb)) -> begin
+                               let () = Printf.printf "swag\n%!" in
+                               match updated_couple with
+                               (* The absolute value is used to counter the second passage ...*)
+                               |(_,Some(fr,cr)) -> Graph.add_arc original idd ids (fr,cb)
+                               |(_,_) -> raise (Invalid_argument "3")
+                               end
       |(_,_) -> (* let s = ids ^ " " ^ idd in raise (Invalid_argument s) *) (* let () = Printf.printf "done\n%!" in *) original
 
-let rec erase_residual_bis original residual ids = function
+let rec erase_residual_bis original residual ids arcs = match arcs with
   |[] -> original
   |(idd,(f,c))::tail -> erase_residual_bis (adaptative_erase original residual ids idd) residual ids tail
 
@@ -82,15 +90,15 @@ let find_path graphe src dest =
 					|[] -> begin
 							match acu with
 								|(deb, []) -> raise Path_Not_Found
-                |(deb, (s,_)::[]) -> let () = Printf.printf "%s Marqué !\n%!" src in find_g graphe deb dest (deb, []) (src::notpass)
-								|(deb, (s,_)::(s2,l)::lst) -> let () = Printf.printf "Passage supp : %s source : %s \n%!" s2 src in  find_g graphe s2 dest (deb, (s2,l)::lst) (src::notpass)
+                |(deb, (s,_)::[]) -> (* let () = Printf.printf "%s Marqué !\n%!" src in*) find_g graphe deb dest (deb, []) (src::notpass)
+								|(deb, (s,_)::(s2,l)::lst) -> (*let () = Printf.printf "Passage supp : %s source : %s \n%!" s2 src in *) find_g graphe s2 dest (deb, (s2,l)::lst) (src::notpass)
 						   end
 					|(i, (a,b)) :: rest ->
 						if (a<b && not(List.mem i notpass)) then
                 match acu with
   								|(first, lst) ->
                     if (not(exists i lst)) then
-                       let () = Printf.printf "Passage a : %s\n%!" i in find_g graphe i dest (first, (i, (a,b))::lst) notpass
+                       (* let () = Printf.printf "Passage a : %s\n%!" i in *) find_g graphe i dest (first, (i, (a,b))::lst) notpass
                     else
                       chemin rest
 						else
@@ -118,7 +126,7 @@ let update_path gr path value =
   let rec iter acu path = match path with
     |(s,[]) -> acu
     |(s,(ids,(fs,cs))::(idd,(fd,cd))::tail) -> begin
-                                                  let () = Printf.printf "increasing...\n" in
+                                                  (* let () = Printf.printf "increasing...\n" in *)
                                                   let acu = (Graph.add_arc acu ids idd ((fd + value),cd)) in
                                                   match Graph.find_arc acu idd ids with
                                                   |Some(f2,c2) -> iter (Graph.add_arc acu idd ids ((f2 - value),c2)) (s,(idd,(fd,cd))::tail)
@@ -155,7 +163,7 @@ let ford_fulkerson graph src dest =
         iter output src dest
       end
     with
-      |Path_Not_Found ->  erase_residual graph  output
+      |Path_Not_Found ->  erase_residual graph output
   in
   iter (make_residual graph) src dest
 
