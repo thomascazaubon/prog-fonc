@@ -1,19 +1,28 @@
 .PHONY: all clear img ftest
 
-all:
-	ocamlbuild -Is lib,app ftest.native
-	./ftest.native graph/graph1 0 5 testgraph
-	dot -Tpng testexport > testimg
+#HOW TO USE : make file=[my_graph] s=[source] d=[destination]
+#[] <=> to be precised without the []
 
-default:
+#Default values, used if none are precised explicitely
+file ?= graph1
+s ?= 0
+d ?= 5
+
+all: build ftest export
+
+#Just builds the files
+build:
 	ocamlbuild -Is lib,app ftest.native
 
+#Executes the ftest file
+ftest: build
+	./ftest.native graph/$(file) $(s) $(d) FF_graph
+
+#Exports the output of ftest into an image
+export: build ftest
+	dot -Tpng FF_export > FF_img
+
+#Clears all the files created by make
 clear:
 		rm -r _build
-		rm -f *.cmi *.cmo *.native *.byte testexport testimg testgraph
-
-ftest:
-	./ftest.native graph/graph1 0 5 testgraph
-
-img:
-	dot -Tpng testexport > testimg
+		rm -f *.cmi *.cmo *.native *.byte FF_export FF_img FF_graph

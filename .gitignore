@@ -4,7 +4,6 @@ ftest
 *.byte
 _build/
 *.native
-testgraph
-testimg
-testexport
-opensrc
+FF_graph
+FF_img
+FF_export

@@ -30,10 +30,7 @@ val display_path: (int * int) path -> unit
 (* Used to find the maximum possible flow increase on a path *)
 val find_max: (int * int) path -> int
 
-(* Increments or decrements all flows on a path by the specified value, typically called using the value returned by find_max *)
-val increase_path: (int * int) path -> int -> (int * int) path
-
-(* Updates the given path in the given graph *)
+(* Increases the given path in the given graph with the given value *)
 val update_path: (int * int) graph -> (int * int) path -> int -> (int * int) graph
 
 (* Runs the ford fulkerson algorithm on the given graph from the specified source to the specified sink *)
