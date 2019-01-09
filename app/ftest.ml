@@ -12,7 +12,6 @@ let () =
   let infile = Sys.argv.(1)
   and outfile = Sys.argv.(4)
 
-  (* These command-line arguments are not used for the moment. *)
   and source = Sys.argv.(2)
   and sink = Sys.argv.(3)
   in

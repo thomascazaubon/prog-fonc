@@ -1,10 +1,10 @@
 .PHONY: all clear img ftest
 
-#HOW TO USE : make file=[my_graph] s=[source] d=[destination]
+#HOW TO USE : make f=[my_graph] s=[source] d=[destination]
 #[] <=> to be precised without the []
 
 #Default values, used if none are precised explicitely
-file ?= graph1
+f ?= graph1
 s ?= 0
 d ?= 5
 
@@ -16,7 +16,7 @@ build:
 
 #Executes the ftest file
 ftest: build
-	./ftest.native graph/$(file) $(s) $(d) FF_graph
+	./ftest.native graph/$(f) $(s) $(d) FF_graph
 
 #Exports the output of ftest into an image
 export: build ftest

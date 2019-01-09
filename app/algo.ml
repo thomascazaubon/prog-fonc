@@ -95,14 +95,11 @@ let convert_flow gr =
 
 (* A function to know whether a node has already been marked during the research of a path
  * We can't use List.mem because the value that we are looking for is a "complex" one
- *)
-
- (*
 let rec exists idx = function
   |[] -> false
   |(x,_)::tail -> if (x = idx) then true else exists idx tail
  *)
- 
+
 (* A function that searches for a path in the given flow graph between the nodes src and dest *)
 let find_path graphe src dest =
   (* path initialization *)
@@ -197,6 +194,6 @@ let ford_fulkerson graph src dest =
         iter output src dest
       end
     with
-      |Path_Not_Found ->  erase_residual graph output
+      |Path_Not_Found ->  output
   in
   iter (make_residual graph) src dest

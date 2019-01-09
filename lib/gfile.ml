@@ -30,6 +30,12 @@ let write_file path graph =
   close_out ff ;
   ()
 
+(*
+let convert_file path =
+  let rec loop path = function
+  in
+  loop path
+*)
 (* Reads a line with a node. *)
 let read_node graph line =
   try Scanf.sscanf line "v %s" (fun id -> add_node graph id)
