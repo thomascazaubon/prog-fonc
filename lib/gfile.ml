@@ -30,12 +30,34 @@ let write_file path graph =
   close_out ff ;
   ()
 
-(*
-let convert_file path =
-  let rec loop path = function
+let generate_graph number_of_nodes =
+  let random_add gr ids maxi =
+    let () = Random.self_init () in
+    let rec loop gr ids maxi = function
+      |0 -> gr
+      |remaining_arcs -> begin
+                          let dest = string_of_int (Random.int (maxi+1)) in
+                          let capacity = Random.int 30 in
+                          if (not (dest = ids) && not (capacity = 0))
+                          then loop (Graph.add_arc gr ids dest (string_of_int capacity)) ids maxi (remaining_arcs-1)
+                          else loop gr ids maxi (remaining_arcs-1)
+                         end
+      in
+      loop gr ids maxi (Random.int (maxi/2))
   in
-  loop path
-*)
+  let rec loop_arcs gr maxi = function
+    |(-1) -> gr
+    |current -> loop_arcs (random_add gr (string_of_int current) maxi) maxi (current-1)
+  in
+  let rec loop_nodes maxi acu current =
+    begin
+      if (current = (maxi+1))
+      then loop_arcs acu maxi maxi
+      else loop_nodes maxi (Graph.add_node acu (string_of_int current)) (current+1)
+    end
+  in
+  loop_nodes (number_of_nodes-1) empty_graph 0
+
 (* Reads a line with a node. *)
 let read_node graph line =
   try Scanf.sscanf line "v %s" (fun id -> add_node graph id)

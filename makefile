@@ -1,12 +1,12 @@
-.PHONY: all clear img ftest
+.PHONY: all clear build ftest export random
 
 #HOW TO USE : make f=[my_graph] s=[source] d=[destination]
 #[] <=> to be precised without the []
 
 #Default values, used if none are precised explicitely
-f ?= graph1
+f ?= random
 s ?= 0
-d ?= 5
+d ?= 9
 
 all: build ftest export
 
@@ -21,6 +21,10 @@ ftest: build
 #Exports the output of ftest into an image
 export: build ftest
 	dot -Tpng FF_export > FF_img
+
+random:
+		ocamlbuild -Is lib,app random_generator.native
+		./random_generator.native graph/random $(s)
 
 #Clears all the files created by make
 clear:

@@ -194,6 +194,6 @@ let ford_fulkerson graph src dest =
         iter output src dest
       end
     with
-      |Path_Not_Found ->  output
+      |Path_Not_Found ->  let () = Printf.printf "[NO MORE PATHS]\n%!" in erase_residual graph output
   in
   iter (make_residual graph) src dest
