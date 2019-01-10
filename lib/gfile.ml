@@ -31,6 +31,7 @@ let write_file path graph =
   ()
 
 let generate_graph number_of_nodes =
+  (* Adding random arcs *)
   let random_add gr ids maxi =
     (* the seed for random int generation is initialized *)
     let () = Random.self_init () in
@@ -55,14 +56,18 @@ let generate_graph number_of_nodes =
       if (ids = "SRC") then loop gr ids maxi ((Random.int maxi)+1)
       else if (maxi > 5) then loop gr ids maxi ((Random.int (maxi/2))+1) else loop gr ids maxi ((Random.int maxi)+1)
   in
+  (* Looping on nodes to add arcs *)
   let rec loop_arcs gr maxi = function
     |(-1) -> gr
+    (* correcting the id of nodes, node 0 is actually "SRC" *)
     |current -> if (current != maxi) then let ids = if (current = 0) then "SRC" else string_of_int current in loop_arcs (random_add gr ids maxi) maxi (current-1) else loop_arcs gr maxi (current-1)
   in
+  (* Adding nodes *)
   let rec loop_nodes maxi acu current =
     begin
       if (current = (maxi+1))
       then loop_arcs acu maxi maxi
+      (* Node 0 id is "SRC", node maxi is "DST" *)
       else let ids = if (current = 0) then "SRC" else if (current = maxi) then "DST" else string_of_int current in loop_nodes maxi (Graph.add_node acu ids) (current+1)
     end
   in
