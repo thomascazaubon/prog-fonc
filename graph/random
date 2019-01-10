@@ -1,24 +1,21 @@
 === Graph file ===
 
-v 0
+v SRC
 v 1
-v 5
-v 6
-v 7
-v 8
-v 9
-v 4
-v 3
 v 2
+v 3
+v 4
+v 5
+v DST
 
-e "1" 0 8
-e "19" 1 6
-e "5" 1 8
-e "6" 5 2
-e "24" 6 3
-e "19" 7 9
-e "1" 8 7
-e "3" 9 1
-e "29" 9 5
+e "16" SRC 1
+e "16" 1 2
+e "3" 1 SRC
+e "8" 2 DST
+e "3" 3 1
+e "2" 4 DST
+e "1" 4 5
+e "17" 4 SRC
+e "16" 5 1
 
 === End of graph ===
