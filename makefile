@@ -1,6 +1,7 @@
 .PHONY: all clear build ftest export random
 
 #######   SIMPLE USE -> CREATES A RANDOM GRAPH GIVEN A NUMBER OF NODES AND EXECUTES FORD FULKERSON ON IT  ######
+	#### BE CAREFUL, 20 NODES SEEM TO BE A MAXIMUM ! ####
 	#make run s=[number_of_nodes]
 
 ####### ADVANCED USE #######

@@ -5,7 +5,7 @@ open Graph
 
 type path = string
 
-(* To generate a random graph given the wanted number of nodes *)
+(* To generate a random graph given the wanted number of nodes, BE CAREFUL, 20 NODES SEEM TO BE A MAXIMUM ! *)
 val generate_graph: int -> string graph
 
 (* Values are read as strings. *)
