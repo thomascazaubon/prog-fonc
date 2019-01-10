@@ -1,22 +1,23 @@
 .PHONY: all clear img ftest
 
 #HOW TO USE : make f=[my_graph] s=[source] d=[destination]
+#
 #[] <=> to be precised without the []
 
 #Default values, used if none are precised explicitely
-f ?= graph1
-s ?= 0
-d ?= 5
+f ?= graphmulti
+s ?= 2
+d ?= 2
 
 all: build ftest export
 
 #Just builds the files
 build:
-	ocamlbuild -Is lib,app ftest.native
+	ocamlbuild -Is lib,app multisource.native
 
 #Executes the ftest file
 ftest: build
-	./ftest.native graph/$(f) $(s) $(d) FF_graph
+	./multisource.native graph/$(f) $(s) $(d) FF_graph 0 1 4 5
 
 #Exports the output of ftest into an image
 export: build ftest

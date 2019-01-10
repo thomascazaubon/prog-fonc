@@ -189,11 +189,23 @@ let ford_fulkerson graph src dest =
         let path = find_path output src dest in
         let () = display_path path in
         let max_flow = find_max path in
-        let () = Printf.printf "max = %d\n%!" max_flow in
+        (*let () = Printf.printf "max = %d\n%!" max_flow in*)
         let output = update_path output path max_flow in
         iter output src dest
       end
     with
-      |Path_Not_Found ->  output
+      |Path_Not_Found ->  erase_residual graph output
   in
   iter (make_residual graph) src dest
+
+let make_multi graph lsrcdest = 
+	let graph = Graph.add_node graph "source" in
+	let graph = Graph.add_node graph "dest" in
+	let rec test graph lsrcdest = match lsrcdest with
+		|([],dest) -> (match dest with
+			|[] -> graph
+			|i :: rest -> let () = Printf.printf "Point dest %s -> " i in let graph = Graph.add_arc graph i "dest" (string_of_int max_int) in test graph ([],rest))
+		|(i :: rest,dest) -> let () = Printf.printf "Point source %s -> " i in let graph = Graph.add_arc graph "source" i (string_of_int max_int) in test graph (rest,dest)
+	in test graph lsrcdest
+
+
