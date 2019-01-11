@@ -1,5 +1,8 @@
 .PHONY: all clear build ftest export random
 
+####### FIRST MAKE YOU SHOULD DO IS :
+####### MAKE SURE YOU HAVE READ THE README.TXT FILE (ROFL)
+
 #######   SIMPLE USE -> CREATES A RANDOM GRAPH GIVEN A NUMBER OF NODES AND EXECUTES FORD FULKERSON ON IT  ######
 	#### BE CAREFUL, 20 NODES SEEM TO BE A MAXIMUM ! ####
 	#make run s=[number_of_nodes]
@@ -17,8 +20,8 @@
 
 #Default values, used if none are precised explicitely
 f ?= random
-s ?= SRC
-d ?= DST
+s ?= 1
+d ?= 2
 
 all: build ftest export
 
@@ -42,7 +45,9 @@ random:
 #Executes a multi-source multi-sinks FF algorithm
 multi:
 	ocamlbuild -Is lib,app multisource.native
-	./multisource.native graph/$(f) $(s) $(d) FF_graph 1 2 4 5
+	### HERE IS THE LINE YOU WERE LOOKING FOR ###
+	./multisource.native graph/$(f) $(s) $(d) FF_graph SRC 1 DST
+	dot -Tpng FF_export > FF_img
 
 #Clears all the files created by make
 clear:
