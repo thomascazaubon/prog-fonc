@@ -20,8 +20,8 @@
 
 #Default values, used if none are precised explicitely
 f ?= random
-s ?= 1
-d ?= 2
+s ?= 2
+d ?= 3
 
 all: build ftest export
 
@@ -46,7 +46,7 @@ random:
 multi:
 	ocamlbuild -Is lib,app multisource.native
 	### HERE IS THE LINE YOU WERE LOOKING FOR ###
-	./multisource.native graph/$(f) $(s) $(d) FF_graph SRC 1 DST
+	./multisource.native graph/$(f) $(s) $(d) FF_graph SRC 1 3 4 DST
 	dot -Tpng FF_export > FF_img
 
 #Clears all the files created by make

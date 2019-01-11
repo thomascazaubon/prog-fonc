@@ -9,7 +9,7 @@ PLEASE, BE SURE TO READ THIS FILE BEFORE CHECKING SOURCE CODE OR TRYING TO COMPI
 WHAT IS CURRENTLY IMPLEMENTED :
   -FORD FULKERSON ALGORITHM
   -RANDOM GRAPH GENERATOR
-  -MULTI-SOURCE MULTI-SINK FORD FULKERSON ALGORITHM
+  -MULTI-SOURCE MULTI-SINK FORD FULKERSON ALGORITHM (BUT VIRTUAL NODES ARE NOT ERASED IN THE END)
 
 *****************************************************************************************************************************************************************************
 

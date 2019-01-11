@@ -83,13 +83,11 @@ let adaptative_erase original gr ids idd =
 
 let rec erase_residual_bis original residual ids arcs = match arcs with
   |[] -> original
-  (* Ignores the VDEST node because it has to be erased *)
-  |(idd,(f,c))::tail -> if (idd != "VDEST") then erase_residual_bis (adaptative_erase original residual ids idd) residual ids tail else erase_residual_bis original residual ids tail
+  |(idd,(f,c))::tail -> erase_residual_bis (adaptative_erase original residual ids idd) residual ids tail
 
 (* To restore the original graph from its residual version, the function erase_residual_bis is applied to the arcs of each nodes *)
 let rec erase_residual original residual =
-  (* Ignores the VSRC node because it has to be erased *)
-  v_fold original (fun acu ids arcs -> if (ids != "VSRC") then erase_residual_bis acu residual ids arcs else acu) original
+  v_fold original (fun acu ids arcs -> erase_residual_bis acu residual ids arcs) original
 
 (* Convert a flow graph to a format that allows exporting, ie (int * int) becomes string *)
 let convert_flow gr =
@@ -210,3 +208,15 @@ let make_multi graph lsrcdest =
 			|i :: rest -> let () = Printf.printf "Point dest %s -> " i in let graph = Graph.add_arc graph i "VDEST" (string_of_int max_int) in test graph ([],rest))
 		|(i :: rest,dest) -> let () = Printf.printf "Point source %s -> " i in let graph = Graph.add_arc graph "VSRC" i (string_of_int max_int) in test graph (rest,dest)
 	in test graph lsrcdest
+
+  (* Used by reverse_multi *)
+  let rec rebuil_arcs gr ids arcs = match arcs with
+    |[] -> gr
+    |(idd,(f,c))::tail -> if (idd != "VDEST" && ids != "VSRC") then rebuil_arcs (Graph.add_arc gr ids idd (f,c)) ids tail else rebuil_arcs gr ids tail
+
+  (* Used by reverse_multi *)
+  let rebuild_nodes gr ids arcs = if (ids != "VSRC" && ids != "VDEST") then Graph.add_node gr ids else gr
+
+  (* To restore the original graph from its multisource adaptation *)
+  let reverse_multi graph = graph
+    (* let gr = v_fold graph (fun acu ids arcs -> rebuild_nodes acu ids arcs) empty_graph in v_fold graph (fun acu ids arcs -> rebuil_arcs acu ids arcs) gr *)

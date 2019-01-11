@@ -19,6 +19,12 @@ val convert_flow: (int * int) graph -> string graph
 (* Make multi source/dest graph using a tuple containing the list ouf sources followed by the list of sinks *)
 val make_multi: string graph -> (string list * string list) -> string graph
 
+(* To erase the virtual nodes added by make_multi
+ * CURRENTLY NOT WORKING (DOING NOTHING) !
+ *)
+
+val reverse_multi: (int * int) graph ->  (int * int) graph
+
 (************ FORD FULKERSON SPECIFIC METHODS ***************)
 
 (* Turns a flow graph into a residual graph *)
