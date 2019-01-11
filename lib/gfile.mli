@@ -5,10 +5,8 @@ open Graph
 
 type path = string
 
-(*
-(* To convert a file from the FF demo website to a readable file for from_file *)
-val convert_file: path -> path
-*)
+(* To generate a random graph given the wanted number of nodes, BE CAREFUL, 20 NODES SEEM TO BE A MAXIMUM ! *)
+val generate_graph: int -> string graph
 
 (* Values are read as strings. *)
 val from_file: path -> string graph

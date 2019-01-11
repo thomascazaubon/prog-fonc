@@ -16,7 +16,7 @@ val erase_residual: (int * int) graph ->  (int * int) graph -> (int * int) graph
 (* Used before exporting a flow graph, turns (int:flow * int:capacity) into "flow/capacity" *)
 val convert_flow: (int * int) graph -> string graph
 
-(* Make multi source/dest grpah *)
+(* Make multi source/dest graph using a tuple containing the list ouf sources followed by the list of sinks *)
 val make_multi: string graph -> (string list * string list) -> string graph
 
 (************ FORD FULKERSON SPECIFIC METHODS ***************)

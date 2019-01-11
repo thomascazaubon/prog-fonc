@@ -83,11 +83,13 @@ let adaptative_erase original gr ids idd =
 
 let rec erase_residual_bis original residual ids arcs = match arcs with
   |[] -> original
-  |(idd,(f,c))::tail -> erase_residual_bis (adaptative_erase original residual ids idd) residual ids tail
+  (* Ignores the VDEST node because it has to be erased *)
+  |(idd,(f,c))::tail -> if (idd != "VDEST") then erase_residual_bis (adaptative_erase original residual ids idd) residual ids tail else erase_residual_bis original residual ids tail
 
 (* To restore the original graph from its residual version, the function erase_residual_bis is applied to the arcs of each nodes *)
 let rec erase_residual original residual =
-  v_fold original (fun acu ids arcs -> erase_residual_bis acu residual ids arcs) original
+  (* Ignores the VSRC node because it has to be erased *)
+  v_fold original (fun acu ids arcs -> if (ids != "VSRC") then erase_residual_bis acu residual ids arcs else acu) original
 
 (* Convert a flow graph to a format that allows exporting, ie (int * int) becomes string *)
 let convert_flow gr =
@@ -194,18 +196,17 @@ let ford_fulkerson graph src dest =
         iter output src dest
       end
     with
-      |Path_Not_Found ->  erase_residual graph output
+      |Path_Not_Found ->  let () = Printf.printf "[NO MORE PATHS]\n%!" in erase_residual graph output
   in
   iter (make_residual graph) src dest
 
-let make_multi graph lsrcdest = 
+(* Makes a multi-sources multi-sinks graph using a given tuple containg the list of sources followed by the list of sinks *)
+let make_multi graph lsrcdest =
 	let graph = Graph.add_node graph "source" in
 	let graph = Graph.add_node graph "dest" in
 	let rec test graph lsrcdest = match lsrcdest with
 		|([],dest) -> (match dest with
 			|[] -> graph
-			|i :: rest -> let () = Printf.printf "Point dest %s -> " i in let graph = Graph.add_arc graph i "dest" (string_of_int max_int) in test graph ([],rest))
-		|(i :: rest,dest) -> let () = Printf.printf "Point source %s -> " i in let graph = Graph.add_arc graph "source" i (string_of_int max_int) in test graph (rest,dest)
+			|i :: rest -> let () = Printf.printf "Point dest %s -> " i in let graph = Graph.add_arc graph i "VDEST" (string_of_int max_int) in test graph ([],rest))
+		|(i :: rest,dest) -> let () = Printf.printf "Point source %s -> " i in let graph = Graph.add_arc graph "VSRC" i (string_of_int max_int) in test graph (rest,dest)
 	in test graph lsrcdest
-
-
