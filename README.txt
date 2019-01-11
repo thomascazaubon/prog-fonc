@@ -1,8 +1,8 @@
-                                                                    **********************
-                                                                    *****   README   *****
-                                                                    **********************
+                                                    **********************
+                                                    *****   README   *****
+                                                    **********************
 
-*****************************************************************************************************************************************************************************
+*********************************************************************************************************************************
 
 PLEASE, BE SURE TO READ THIS FILE BEFORE CHECKING SOURCE CODE OR TRYING TO COMPILE
 
@@ -11,7 +11,7 @@ WHAT IS CURRENTLY IMPLEMENTED :
   -RANDOM GRAPH GENERATOR
   -MULTI-SOURCE MULTI-SINK FORD FULKERSON ALGORITHM (BUT VIRTUAL NODES ARE NOT ERASED IN THE END)
 
-*****************************************************************************************************************************************************************************
+*********************************************************************************************************************************
 
 THE FIRST THING YOU SHOULD DO IS GENERATING A RANDOM GRAPH USING THE MAKE RANDOM INSRUCTION (ALL DETAILS ARE IN THE MAKEFILE)
   ->MAKE RANDOM S=X GENERATES A RANDOM GRAPH HAVING X NODES, NODE 0 BEEING SRC AND NODE X-1 BEEING DST (YOU CAN SEE THE GENERATED GRAPH FILE CALLED "RANDOM" IN THE GRAPH FOLDER)
@@ -21,7 +21,7 @@ ONCE YOU HAVE GENERATED A GRAPH YOU CAN TRY TO RUN THE FF ALGORITHM ON IT USING 
 
   ===> NOTE THAT YOU CAN ALSO QUICKLY GENERATE A GRAPH AND EXECUTE THE FF ALGORITHM ON IT USING MAKE RUN S=X, X BEEING THE NUMBER OF NODES WANTED IN THE GRAPH <===
 
-*****************************************************************************************************************************************************************************
+*********************************************************************************************************************************
 
 YOU CAN ALSO TRY THE MULTI FF ALGORITHM BY USING THE MAKE MULTI INSTRUCTION
   ===> THIS ONE IS A BIT MORE COMPLEX
@@ -30,27 +30,27 @@ YOU CAN ALSO TRY THE MULTI FF ALGORITHM BY USING THE MAKE MULTI INSTRUCTION
 
 ===> KEEP IN MIND THAT YOU CAN ALSO PRECISE AN OTHER GRAPH FILE (THAT MUST BE PUT IN THE GRAPH FOLDER) WHEN EXECUTING FF ALGORITHMS USING MAKE F=NAME S=SOURCE D=SINK <===
 
-                                          ===> BE CAREFUL WITH S AND D, IN MULTI MODE THAY HAVE A DIFFERENT MEANING <====
+                         ===> BE CAREFUL WITH S AND D, IN MULTI MODE THAY HAVE A DIFFERENT MEANING <====
 
 
-*****************************************************************************************************************************************************************************
-*****************************************************************************************************************************************************************************
-*****************************************************************************************************************************************************************************
+*********************************************************************************************************************************
+*********************************************************************************************************************************
+*********************************************************************************************************************************
 
-                               THANKS FOR READING, NOW YOU CAN ENJOY THE OUTSTANDING SKILLS OF THE PROGRAMMERS BEHIND THIS PROJECT !
-
-
-
-                                                                          COPYRIGHTS :
-
-                                                                           GAILLARD
-                                                                               &
-                                                                           CAZAUBON
-                                                                             2019
-                                                                   "AWESOMENESS IS OUR CREED"
-                                                                      ALL RIGHTS RESERVED
+             THANKS FOR READING, NOW YOU CAN ENJOY THE OUTSTANDING SKILLS OF THE PROGRAMMERS BEHIND THIS PROJECT !
 
 
-*****************************************************************************************************************************************************************************
-*****************************************************************************************************************************************************************************
-*****************************************************************************************************************************************************************************
+
+                                                        COPYRIGHTS :
+
+                                                         GAILLARD
+                                                             &
+                                                         CAZAUBON
+                                                           2019
+                                                 "AWESOMENESS IS OUR CREED"
+                                                    ALL RIGHTS RESERVED
+
+
+*********************************************************************************************************************************
+*********************************************************************************************************************************
+*********************************************************************************************************************************
