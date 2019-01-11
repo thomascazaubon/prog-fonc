@@ -202,8 +202,8 @@ let ford_fulkerson graph src dest =
 
 (* Makes a multi-sources multi-sinks graph using a given tuple containg the list of sources followed by the list of sinks *)
 let make_multi graph lsrcdest =
-	let graph = Graph.add_node graph "source" in
-	let graph = Graph.add_node graph "dest" in
+	let graph = Graph.add_node graph "VSRC" in
+	let graph = Graph.add_node graph "VDEST" in
 	let rec test graph lsrcdest = match lsrcdest with
 		|([],dest) -> (match dest with
 			|[] -> graph

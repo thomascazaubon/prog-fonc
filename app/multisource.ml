@@ -28,7 +28,7 @@ let () =
   (* export .dot *)
   let graph = Algo.make_flow graph in
 
-  let graph = Algo.ford_fulkerson graph "source" "dest" in
+  let graph = Algo.ford_fulkerson graph "VSRC" "VDEST" in
   let graph = Algo.convert_flow graph in
   let () = Gfile.export "FF_export" graph in
   (* Rewrite the graph that has been read. *)

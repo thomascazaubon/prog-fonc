@@ -42,7 +42,7 @@ random:
 #Executes a multi-source multi-sinks FF algorithm
 multi:
 	ocamlbuild -Is lib,app multisource.native
-	./multisource.native graph/$(f) $(s) $(d) FF_graph 0 1 4 5
+	./multisource.native graph/$(f) $(s) $(d) FF_graph 1 2 4 5
 
 #Clears all the files created by make
 clear:
